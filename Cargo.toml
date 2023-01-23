@@ -4,6 +4,8 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+chrono = "0.4.23"
+use = "0.0.0"
 wasm-bindgen = "0.2.83"
 wee_alloc = "0.4.5"
 

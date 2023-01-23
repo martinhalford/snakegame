@@ -1,3 +1,4 @@
+use chrono::Utc;
 use wasm_bindgen::prelude::*;
 use wee_alloc::WeeAlloc;
 
@@ -47,12 +48,15 @@ pub struct World {
 #[wasm_bindgen]
 impl World {
     pub fn new(width: usize, snake_idx: usize) -> World {
+        let size = width * width;
+        let reward_cell = (Utc::now().timestamp_millis() as usize) % size;
+
         World {
             width,
-            size: width * width,
+            size,
             snake: Snake::new(snake_idx, 3),
             next_cell: None,
-            reward_cell: 10,
+            reward_cell,
         }
     }
 
