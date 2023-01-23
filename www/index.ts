@@ -2,7 +2,7 @@ import init, { World, Direction } from "snakegame";
 
 init().then(wasm => {
     const CELL_SIZE = 20;
-    const WORLD_WIDTH = 16;
+    const WORLD_WIDTH = 5;
     const snakeSpawnIdx = (Date.now() * 3.14159265359) % (WORLD_WIDTH * WORLD_WIDTH);;
 
     const world = World.new(WORLD_WIDTH, snakeSpawnIdx);
@@ -62,6 +62,10 @@ init().then(wasm => {
             CELL_SIZE
         )
         ctx.stroke();
+
+        if (idx == 1000000) {
+            alert("You won!");
+        }
     }
 
 
@@ -97,7 +101,7 @@ init().then(wasm => {
     }
 
     function update() {
-        const fps = 10;
+        const fps = 2;
         setTimeout(() => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             world.step();
