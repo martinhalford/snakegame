@@ -14,7 +14,7 @@ pub enum Direction {
     Left,
 }
 
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, PartialEq)]
 pub struct SnakeCell(usize);
 
 struct Snake {
@@ -45,16 +45,31 @@ pub struct World {
     reward_cell: usize,
 }
 
+//
+// Pseudo-random number generator using Utc timestamp.
+//
+pub fn rnd(size: usize) -> usize {
+    (Utc::now().timestamp_millis() as usize) % size
+}
+
 #[wasm_bindgen]
 impl World {
     pub fn new(width: usize, snake_idx: usize) -> World {
+        let snake = Snake::new(snake_idx, 3);
         let size = width * width;
-        let reward_cell = (Utc::now().timestamp_millis() as usize) % size;
+        let mut reward_cell;
+
+        loop {
+            reward_cell = rnd(size);
+            if !snake.body.contains(&SnakeCell(reward_cell)) {
+                break;
+            }
+        }
 
         World {
             width,
             size,
-            snake: Snake::new(snake_idx, 3),
+            snake,
             next_cell: None,
             reward_cell,
         }
