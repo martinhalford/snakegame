@@ -2,3 +2,6 @@ node_modules
 /public/*.js
 /public/*.wasm
 /public/*.html
+
+# MacOS system files
+.DS_Store
