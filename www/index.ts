@@ -8,11 +8,25 @@ init().then(wasm => {
     const world = World.new(WORLD_WIDTH, snakeSpawnIdx);
     const worldWidth = world.width();
 
+    const gameStatus = document.getElementById("game-status");
+    const gameControlBtn = document.getElementById("game-control-btn");
     const canvas = <HTMLCanvasElement>document.getElementById("snake-canvas");
     const ctx = canvas.getContext("2d");
 
     canvas.height = worldWidth * CELL_SIZE;
     canvas.width = worldWidth * CELL_SIZE;
+
+    gameControlBtn.addEventListener("click", _ => {
+        const status = world.game_status();
+
+        if (status === undefined) {
+            gameControlBtn.textContent = 'Restart';
+            world.start_game();
+            play();
+        } else {
+            location.reload();
+        }
+    });
 
     document.addEventListener("keydown", e => {
         switch (e.code) {
@@ -94,23 +108,27 @@ init().then(wasm => {
         ctx.stroke();
     }
 
+    function drawGameStatus() {
+        gameStatus.textContent = world.game_status_text();
+    }
+
     function paint() {
         drawWorld();
         drawSnake();
         drawReward();
+        drawGameStatus();
     }
 
-    function update() {
+    function play() {
         const fps = 2;
         setTimeout(() => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             world.step();
             paint()
-            requestAnimationFrame(update);
+            requestAnimationFrame(play);
         }, 1000 / fps);
     }
 
     paint();
-    update();
 
 })
