@@ -1,13 +1,14 @@
-import init, { World, Direction } from "snakegame";
+import init, { World, Direction, GameStatus } from "snakegame";
 
 init().then(wasm => {
     const CELL_SIZE = 20;
-    const WORLD_WIDTH = 4;
+    const WORLD_WIDTH = 16;
     const snakeSpawnIdx = (Date.now() * 3.14159265359) % (WORLD_WIDTH * WORLD_WIDTH);;
 
     const world = World.new(WORLD_WIDTH, snakeSpawnIdx);
     const worldWidth = world.width();
 
+    const points = document.getElementById("points");
     const gameStatus = document.getElementById("game-status");
     const gameControlBtn = document.getElementById("game-control-btn");
     const canvas = <HTMLCanvasElement>document.getElementById("snake-canvas");
@@ -113,6 +114,7 @@ init().then(wasm => {
 
     function drawGameStatus() {
         gameStatus.textContent = world.game_status_text();
+        points.textContent = world.points().toString();
     }
 
     function paint() {
@@ -123,7 +125,14 @@ init().then(wasm => {
     }
 
     function play() {
-        const fps = 1;
+        const status = world.game_status();
+
+        if (status == GameStatus.Won || status == GameStatus.Lost) {
+            gameControlBtn.textContent = "Replay";
+            return;
+        }
+
+        const fps = 3;
         setTimeout(() => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             world.step();
