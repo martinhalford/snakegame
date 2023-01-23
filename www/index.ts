@@ -2,7 +2,7 @@ import init, { World, Direction } from "snakegame";
 
 init().then(wasm => {
     const CELL_SIZE = 20;
-    const WORLD_WIDTH = 5;
+    const WORLD_WIDTH = 4;
     const snakeSpawnIdx = (Date.now() * 3.14159265359) % (WORLD_WIDTH * WORLD_WIDTH);;
 
     const world = World.new(WORLD_WIDTH, snakeSpawnIdx);
@@ -90,21 +90,24 @@ init().then(wasm => {
             world.snake_length()
         )
 
-        snakeCells.forEach((cellIdx, i) => {
-            const col = cellIdx % worldWidth;
-            const row = Math.floor(cellIdx / worldWidth);
+        snakeCells
+            // .filter((cellIdx, i) => !(i > 0 && cellIdx === snakeCells[0]))
+            .slice()
+            .reverse()
+            .forEach((cellIdx, i) => {
+                const col = cellIdx % worldWidth;
+                const row = Math.floor(cellIdx / worldWidth);
 
-            ctx.fillStyle = i === 0 ? "#7878db" : "#000000";
+                ctx.fillStyle = i === snakeCells.length - 1 ? "#7878db" : "#000000";
 
-            ctx.beginPath();
-            ctx.fillRect(
-                col * CELL_SIZE,
-                row * CELL_SIZE,
-                CELL_SIZE,
-                CELL_SIZE
-            )
-        })
-
+                ctx.beginPath();
+                ctx.fillRect(
+                    col * CELL_SIZE,
+                    row * CELL_SIZE,
+                    CELL_SIZE,
+                    CELL_SIZE
+                );
+            })
         ctx.stroke();
     }
 
@@ -120,7 +123,7 @@ init().then(wasm => {
     }
 
     function play() {
-        const fps = 2;
+        const fps = 1;
         setTimeout(() => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             world.step();

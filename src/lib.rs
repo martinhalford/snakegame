@@ -50,7 +50,7 @@ pub struct World {
     size: usize,
     snake: Snake,
     next_cell: Option<SnakeCell>,
-    reward_cell: usize,
+    reward_cell: Option<usize>,
     status: Option<GameStatus>,
 }
 
@@ -77,7 +77,7 @@ impl World {
         }
     }
 
-    fn gen_reward_cell(max: usize, snake_body: &Vec<SnakeCell>) -> usize {
+    fn gen_reward_cell(max: usize, snake_body: &Vec<SnakeCell>) -> Option<usize> {
         let mut reward_cell;
 
         loop {
@@ -86,14 +86,14 @@ impl World {
                 break;
             }
         }
-        reward_cell
+        Some(reward_cell)
     }
 
     pub fn width(&self) -> usize {
         self.width
     }
 
-    pub fn reward_cell(&self) -> usize {
+    pub fn reward_cell(&self) -> Option<usize> {
         self.reward_cell
     }
 
@@ -150,21 +150,23 @@ impl World {
                     }
                 };
 
-                let len = self.snake.body.len();
-
-                for i in 1..len {
+                for i in 1..self.snake_length() {
                     self.snake.body[i] = SnakeCell(temp[i - 1].0);
                 }
 
-                let somewhere_outside_grid = 1_000_000;
+                if self.snake.body[1..self.snake_length()].contains(&self.snake.body[0]) {
+                    self.status = Some(GameStatus::Lost);
+                } else {
+                }
 
-                if self.reward_cell != self.snake_head_idx() {
+                if self.reward_cell != Some(self.snake_head_idx()) {
                     return;
                 }
                 self.reward_cell = if self.snake_length() < self.size {
                     World::gen_reward_cell(self.size, &self.snake.body)
                 } else {
-                    somewhere_outside_grid
+                    self.status = Some(GameStatus::Won);
+                    None
                 };
                 self.snake.body.push(SnakeCell(self.snake.body[1].0));
             }
