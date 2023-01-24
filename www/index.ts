@@ -11,6 +11,11 @@ init().then(wasm => {
     const points = document.getElementById("points");
     const gameStatus = document.getElementById("game-status");
     const gameControlBtn = document.getElementById("game-control-btn");
+    const upArrowBtn = document.getElementById("up-arrow-btn");
+    const leftArrowBtn = document.getElementById("left-arrow-btn");
+    const rightArrowBtn = document.getElementById("right-arrow-btn");
+    const downArrowBtn = document.getElementById("down-arrow-btn");
+
     const canvas = <HTMLCanvasElement>document.getElementById("snake-canvas");
     const ctx = canvas.getContext("2d");
 
@@ -28,6 +33,22 @@ init().then(wasm => {
             location.reload();
         }
     });
+
+    upArrowBtn.addEventListener("click", _ => {
+        world.change_snake_dir(Direction.Up);
+    })
+
+    leftArrowBtn.addEventListener("click", _ => {
+        world.change_snake_dir(Direction.Left);
+    })
+
+    rightArrowBtn.addEventListener("click", _ => {
+        world.change_snake_dir(Direction.Right);
+    })
+
+    downArrowBtn.addEventListener("click", _ => {
+        world.change_snake_dir(Direction.Down);
+    })
 
     document.addEventListener("keydown", e => {
         switch (e.code) {
