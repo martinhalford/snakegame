@@ -2,6 +2,8 @@
 
 A demo snake game developed in Rust. 
 
+Play demo snake game online at: [https://snake.halford.it](https://snake.halford.it) 
+
 The snake game rust app runs in the browser and interacts with the user via a simple HTML/Typescript interface.
 
 The JS/TS interface calls functions defined within the Rust app, compiled as WASM, using [WASM Bindgen](https://github.com/rustwasm/wasm-bindgen).
