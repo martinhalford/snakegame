@@ -20,7 +20,7 @@
         }
 
         .game-panel {
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
         .flex {
@@ -29,15 +29,27 @@
 
         .label {
             font-weight: bold;
+            font-family: Arial, Helvetica, sans-serif;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin-right: 10px;
+        }
+
+        .data {
+            text-decoration: none;
+            font-family: Arial, Helvetica, sans-serif;
+            display: inline-block;
+            font-size: 14px;
             margin-right: 10px;
         }
 
         .game-wrapper {
-            margin: 50px;
+            margin: 10px;
             display: flex;
             flex-direction: row;
             align-items: center;
-            gap: 50px;
+            gap: 10px;
         }
 
         .joystick-wrapper {
@@ -48,19 +60,30 @@
 
         }
 
+        .button {
+            background-color: #4CAF50;
+            /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+        }
+
         .arrow {
             margin: auto;
             width: 0;
             height: 0;
-            border-left: 50px solid transparent;
-            border-right: 50px solid transparent;
-
-            border-bottom: 50px solid black;
+            border-left: 40px solid transparent;
+            border-right: 40px solid transparent;
+            border-bottom: 40px solid black;
             cursor: pointer;
         }
 
         .arrow:hover {
-            border-bottom: 50px solid rgb(44, 143, 255);
+            border-bottom: 40px solid rgb(44, 143, 255);
         }
 
         .joystick-wrapper div:nth-of-type(2) {
@@ -87,40 +110,41 @@
 
 <body>
     <div class="content-wrapper">
-        <div class="game-panel">
-            <div class="flex">
-                <div class="label">
-                    Status:
+
+        <canvas id="snake-canvas"></canvas>
+        <div class="joystick-wrapper">
+            <p></p>
+            <div class="arrow" id="up-arrow-btn"></div>
+            <p></p>
+            <div class="arrow" id="left-arrow-btn"></div>
+            <p></p>
+            <div class="arrow" id="right-arrow-btn"></div>
+            <p></p>
+            <div class="arrow" id="down-arrow-btn"></div>
+            <p></p>
+        </div>
+        <div class="game-wrapper">
+            <div>
+                <div class="flex">
+                    <div class="label">
+                        Status:
+                    </div>
+                    <div class="data" id="game-status">
+                        None
+                    </div>
                 </div>
-                <div id="game-status">
-                    None
+                <div class="flex">
+                    <div class="label">
+                        Points:
+                    </div>
+                    <div class="data" id="points">
+                    </div>
                 </div>
             </div>
             <div class="flex">
-                <div class="label">
-                    Points:
-                </div>
-                <div id="points">
-                </div>
-            </div>
-            <div class="flex">
-                <button id="game-control-btn">
+                <button class="button" id="game-control-btn">
                     Play
                 </button>
-            </div>
-        </div>
-        <canvas id="snake-canvas"></canvas>
-        <div class="game-wrapper">
-            <div class="joystick-wrapper">
-                <p></p>
-                <div class="arrow" id="up-arrow-btn"></div>
-                <p></p>
-                <div class="arrow" id="left-arrow-btn"></div>
-                <p></p>
-                <div class="arrow" id="right-arrow-btn"></div>
-                <p></p>
-                <div class="arrow" id="down-arrow-btn"></div>
-                <p></p>
             </div>
         </div>
         <script src="/bootstrap.js"></script>
